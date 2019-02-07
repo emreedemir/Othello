@@ -16,17 +16,15 @@ public class Board : MonoBehaviour {
     int b_width = 8;
     int b_height =8;
 
+    //Initial position of Pieces on board position
     int s_position_x = 3;
     int s_position_y = 3;
-
 
     //All cells
     Cell[,] allCells;
 
-
     public void Start()
     {
- 
         allCells = new Cell[b_width,b_height];
         CreateBoard();
         SetPieces();
@@ -53,5 +51,4 @@ public class Board : MonoBehaviour {
 
 
     }
- 
 }
