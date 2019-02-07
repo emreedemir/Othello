@@ -24,9 +24,12 @@ public class Cell : MonoBehaviour {
 
     public enum CellType
     {
-        Green =0,
-        White=1
+        Empty =0,
+        WhitePiece=1,
+        BlackPiece=2
     }
+
+    CellType cellType = CellType.Empty;
 
     public void SetCell(int x,int y)
     {
