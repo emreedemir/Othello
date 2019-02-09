@@ -27,11 +27,49 @@ public class PiecePool : MonoBehaviour {
         for (int i = 0; i < m_countPiece; i++)
         {
             Piece instantiePiece = Instantiate(m_piece,poolPosition,Quaternion.identity);
-            instantiePiece.pieceType =pieceType;
             instantiePiece.transform.name = "Piece[" + i + "]"+pieceType.ToString();
+            instantiePiece.pieceType = pieceType;
             pieceList.Add(instantiePiece);
         }
     }
+
+
+
+    public Piece TakeFromPool(Piece.PieceType pieceType)
+    {
+        Piece piece;
+        if (pieceType == Piece.PieceType.BlackPiece)
+        {
+            piece = m_whitePieces[0];
+            m_whitePieces.RemoveAt(1);
+        }
+        else if (pieceType == Piece.PieceType.WhitePiece)
+        {
+            piece = m_blackPieces[0];
+            m_blackPieces.RemoveAt(1);
+        }
+        else
+            piece = this.m_piece;
+
+        return piece;
+    }
+   
+
+
+
+    public void AddPool(Piece piece,Piece.PieceType pieceType)
+    {
+
+        if (pieceType == Piece.PieceType.BlackPiece)
+        {
+            m_blackPieces.Add(piece);
+        }
+        else if (pieceType == Piece.PieceType.WhitePiece)
+        {
+            m_whitePieces.Add(piece);
+        }
+    }
+
 }
 
 
