@@ -12,7 +12,6 @@ public class PiecePool : MonoBehaviour {
     Piece.PieceType blackType = Piece.PieceType.BlackPiece;
     Piece.PieceType whiteType = Piece.PieceType.WhitePiece;
 
-
     Vector3 poolPosition = new Vector3(100,100,100);
 
     
@@ -28,12 +27,11 @@ public class PiecePool : MonoBehaviour {
         {
             Piece instantiePiece = Instantiate(m_piece,poolPosition,Quaternion.identity);
             instantiePiece.transform.name = "Piece[" + i + "]"+pieceType.ToString();
+            instantiePiece.SetPiece(poolPosition,pieceType);
             instantiePiece.pieceType = pieceType;
             pieceList.Add(instantiePiece);
         }
     }
-
-
 
     public Piece TakeFromPool(Piece.PieceType pieceType)
     {
@@ -54,9 +52,6 @@ public class PiecePool : MonoBehaviour {
         return piece;
     }
    
-
-
-
     public void AddPool(Piece piece,Piece.PieceType pieceType)
     {
 

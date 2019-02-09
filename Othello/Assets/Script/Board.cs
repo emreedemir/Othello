@@ -27,7 +27,7 @@ public class Board : MonoBehaviour {
     {
         allCells = new Cell[b_width,b_height];
         CreateBoard();
-        SetPieces();
+       
     }
 
     public void CreateBoard()
@@ -43,12 +43,5 @@ public class Board : MonoBehaviour {
             }
         }
     }
-
-    //Set İnitliazie Piece
-    public void SetPieces()
-    {
-
-
-
-    }
+  
 }

@@ -18,12 +18,13 @@ public class Piece : MonoBehaviour {
     Color red = Color.red;//Default color
 
     Renderer renderer;
+    Material material;
 
-  
-    public void SetPosition(Vector3 position)
+    public void SetPiece(Vector3 position,PieceType pieceType)
     {
         renderer = GetComponent<Renderer>();
         transform.position = position;
+        this.pieceType = pieceType;
         SetColor();
     }
 
@@ -36,8 +37,7 @@ public class Piece : MonoBehaviour {
         }
         else if (pieceType == PieceType.WhitePiece)
         {
-            renderer.material.color = white;
-           
+            renderer.material.color = white;   
         }
         else
         {
