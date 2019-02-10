@@ -65,6 +65,16 @@ public class PiecePool : MonoBehaviour {
         }
     }
 
+
+
+    public void ResetPool()
+    {
+
+
+
+    }
+
+
 }
 
 
