@@ -43,5 +43,13 @@ public class Board : MonoBehaviour {
             }
         }
     }
-  
+
+    public void SetToBoard(Piece piece,int x,int y)
+    {
+        Debug.Log("CAlisiyorr");
+        piece.transform.position = allCells[x, y].transform.position;
+
+    }
+
+
 }

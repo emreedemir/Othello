@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 
     #endregion
 
+    GamePlay gamePlay;
     public enum GameType
     {
         DefaultType =0,
@@ -27,24 +28,20 @@ public class GameManager : MonoBehaviour {
         TwoPlayer = 2
     }
 
-
-
     public void Start()
     {
         onePlayerButton.onClick.AddListener(()=> { SetGame(GameType.OnePlayer); });
         twoPlayerButton.onClick.AddListener(() => { SetGame(GameType.TwoPlayer); });
         resetButton.onClick.AddListener(()=> { ResetGame(); });
         exitButton.onClick.AddListener(()=> { ExitGame(); });
+     
     }
 
     public void SetGame(GameType gameType)
     {
-
         Debug.Log("Setting Game"+gameType);
 
         CreatePlayer(gameType);
-
-
     }
 
     public void ResetGame()
@@ -57,36 +54,35 @@ public class GameManager : MonoBehaviour {
         Debug.Log("Exit Game");
     }
 
-
     public void CreatePlayer(GameType gameType)
     {
         
         if (gameType == GameType.OnePlayer)
         {
-            Player player1 = Instantiate(m_player);
-            
-            player1.transform.name = "PLAYER";
+            Player player1 = Instantiate(m_player);  
+           
 
             AIPlayer aiPlayer = Instantiate(m_aiPLayer);
+
+            player1.transform.name = "PLAYER";
             aiPlayer.transform.name = "AI PLAYER";
 
+            gamePlay.GetPlayers(player1, aiPlayer);
         }
         else if (gameType == GameType.TwoPlayer)
         {
-            Debug.Log("is erro");
             Player player1 = Instantiate(m_player);
-            player1.transform.name = "PLAYER 1";
 
             Player player2 = Instantiate(m_player);
+
+            player1.transform.name = "PLAYER 1";
             player1.transform.name = "PLAYER 2";
 
+            gamePlay.GetPlayers(player1, player2);
         }
         else
         {
             Debug.LogWarning("Error at GameType");
         }
-
     }
-
-
 }
