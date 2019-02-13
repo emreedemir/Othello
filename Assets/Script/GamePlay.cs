@@ -23,7 +23,6 @@ public class GamePlay  :MonoBehaviour{
     int y2_P1 = 5;
 
     //For Player1 or AI
-
     int x1_P2 = 4;
     int y1_P2 = 5;
 
@@ -47,35 +46,15 @@ public class GamePlay  :MonoBehaviour{
         Onset(m_player1,m_aiplayer);
     }
 
-    //Onset for player1 vs player 2
-    public void Onset(Player player1, Player player2)
+    //We use BasePlayer parameters for that functions because player2 can be ai or player2.
+    public void Onset(BasePlayer player1, BasePlayer player2)
     {
-        player1.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.WhitePiece),x1_P1,y1_P1);
-        player1.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.WhitePiece), x1_P1, y1_P1);
-      
-
-
-        player2.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.BlackPiece), x1_P2, y1_P2);
-        player2.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.BlackPiece), x1_P2, y1_P2);
-
-
-
+        player1.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.WhitePiece), new Position(x1_P1, y1_P1));
+        player2.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.BlackPiece), new Position(x1_P2, y1_P2));
     }
-    //Onset for player1 vs AI
-    public void Onset(Player player1, AIPlayer aiPlayer)
-    {
-        player1.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.WhitePiece), x1_P1, y1_P1);
-        player1.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.WhitePiece), x1_P1, y1_P1);
 
-        aiPlayer.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.BlackPiece), x1_P2, y1_P2);
-        aiPlayer.AddPiece(m_piecePool.TakeFromPool(Piece.PieceType.BlackPiece), x1_P2, y1_P2);
-
-    }
     public void Move()
     {
-        
-
-
 
     }
 

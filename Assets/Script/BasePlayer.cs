@@ -3,32 +3,28 @@ using UnityEngine;
 
 public class BasePlayer : MonoBehaviour
 {
-    private Piece[,] pieces;
+    private IDictionary<Position, Piece> pieceDictionary;
     private List<Piece> m_listOfPieceS = new List<Piece>();
     Board board;
 
-
-
     virtual protected void Start()
     {
-        pieces = new Piece[8, 8];
+        pieceDictionary = new Dictionary<Position, Piece>();
     }
 
-    public void AddPiece(Piece piece, int xIndex, int yIndex)
+    public void AddPiece(Piece piece, Position position)
     {
         Debug.Log("CAlisyor Add piece");
-        pieces[xIndex, yIndex] = piece;
+        pieceDictionary[position] = piece;
        
-        board.SetToBoard(piece,xIndex,yIndex);
+        board.SetToBoard(piece, position);
         m_listOfPieceS.Add(piece);
-       
     }
 
-    public void RemovePiece(Piece piece, int xIndex, int yIndex)
+    public void RemovePiece(Piece piece, Position position)
     {
        
-        pieces[xIndex, yIndex] = null;
-        m_listOfPieceS.Remove(piece);
-        
+        pieceDictionary[position] = null;
+        m_listOfPieceS.Remove(piece);        
     }
 }

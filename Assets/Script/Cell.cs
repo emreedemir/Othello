@@ -31,10 +31,10 @@ public class Cell : MonoBehaviour {
 
     CellType cellType = CellType.Empty;
 
-    public void SetCell(int x,int y)
+    public void SetCell(Position position)
     {
-        x_index = x;
-        y_index = y;
+        x_index = position.X;
+        y_index = position.Y;
 
         renderer = GetComponent<Renderer>();
         cellPosition =bias*( new Vector3(x_index,0,y_index));

@@ -6,48 +6,49 @@ public class Board : MonoBehaviour {
 
 
 
-    public Cell cell;
+    [SerializeField] private Cell cellPrefab;
     public Piece pieces;
 
 
     List<Cell> cells = new List<Cell>();
 
     //Board width and height
-    int b_width = 8;
-    int b_height =8;
+    int width = 8;
+    int height =8;
 
     //Initial position of Pieces on board position
     int s_position_x = 3;
     int s_position_y = 3;
 
     //All cells
-    Cell[,] allCells;
+    private IDictionary<Position, Cell> cellDictionary;
 
     public void Start()
     {
-        allCells = new Cell[b_width,b_height];
+        cellDictionary = new Dictionary<Position, Cell>(width * height);
         CreateBoard();
        
     }
 
     public void CreateBoard()
     {
-        for (int i = 0; i < b_width; i++)
+        for (int x = 0; x < width; x++)
         {
-            for (int j = 0; j < b_height; j++)
+            for (int y = 0; y < height; y++)
             {
-                Cell cellInstantie = Instantiate(cell, Vector3.zero, Quaternion.identity);
-                allCells[i, j] = cellInstantie;
-                cellInstantie.transform.name = "Cell[" + i + "," + j + "]";
-                cellInstantie.SetCell(i, j);
+                Cell cell = Instantiate(cellPrefab, Vector3.zero, Quaternion.identity);
+                Position position = new Position(x, y);
+                cellDictionary.Add(position, cell);
+                cell.transform.name += position.ToString();
+                cell.SetCell(position);
             }
         }
     }
 
-    public void SetToBoard(Piece piece,int x,int y)
+    public void SetToBoard(Piece piece, Position position)
     {
         Debug.Log("CAlisiyorr");
-        piece.transform.position = allCells[x, y].transform.position;
+        piece.transform.position = cellDictionary[position].transform.position;
 
     }
 
