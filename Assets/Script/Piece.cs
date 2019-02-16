@@ -21,13 +21,16 @@ public class Piece : MonoBehaviour {
     Renderer renderer;
     Material material;
 
+    public void Awake()
+    {
+        transform.Rotate(new Vector3(90, 0, 0));
+        
+    }
     public void SetPiece(Vector3 position,PieceType pieceType)
     {
-
-        transform.Rotate(new Vector3(90,0,0));
-        transform.position += new Vector3(0,0.02f,0);
         renderer = GetComponent<Renderer>();
-        transform.position = position;
+        transform.position = position + new Vector3(0, 0.05f, 0); ;
+        
         this.pieceType = pieceType;
         SetColor();
     }

@@ -37,7 +37,7 @@ public class Board : MonoBehaviour {
             for (int y = 0; y < height; y++)
             {
                 Cell cell = Instantiate(cellPrefab, Vector3.zero, Quaternion.identity);
-                Position position = new Position(x, y);
+                Position position = new Position(x,y);
                 cellDictionary.Add(position, cell);
                 cell.transform.name += position.ToString();
                 cell.SetCell(position);
