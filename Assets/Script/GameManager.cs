@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour {
 
     public void Start()
     {
+        gamePlay = FindObjectOfType<GamePlay>();
         onePlayerButton.onClick.AddListener(()=> { SetGame(GameType.OnePlayer); });
         twoPlayerButton.onClick.AddListener(() => { SetGame(GameType.TwoPlayer); });
         resetButton.onClick.AddListener(()=> { ResetGame(); });

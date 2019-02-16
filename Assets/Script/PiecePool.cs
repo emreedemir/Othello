@@ -39,12 +39,12 @@ public class PiecePool : MonoBehaviour {
         if (pieceType == Piece.PieceType.BlackPiece)
         {
             piece = m_whitePieces[0];
-            m_whitePieces.RemoveAt(1);
+            m_whitePieces.RemoveAt(0);
         }
         else if (pieceType == Piece.PieceType.WhitePiece)
         {
             piece = m_blackPieces[0];
-            m_blackPieces.RemoveAt(1);
+            m_blackPieces.RemoveAt(0);
         }
         else
             piece = this.m_piece;

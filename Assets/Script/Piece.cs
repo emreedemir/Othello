@@ -13,6 +13,7 @@ public class Piece : MonoBehaviour {
 
     public PieceType pieceType = PieceType.DefaultPiece;
 
+    
     Color white = Color.white;
     Color black = Color.black;
     Color red = Color.red;//Default color
@@ -22,6 +23,9 @@ public class Piece : MonoBehaviour {
 
     public void SetPiece(Vector3 position,PieceType pieceType)
     {
+
+        transform.Rotate(new Vector3(90,0,0));
+        transform.position += new Vector3(0,0.02f,0);
         renderer = GetComponent<Renderer>();
         transform.position = position;
         this.pieceType = pieceType;

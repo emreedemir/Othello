@@ -20,6 +20,7 @@ public class Cell : MonoBehaviour {
 
     Vector3 scaleCell = new Vector3(5,5,5);
 
+   
     Renderer renderer;
 
     public enum CellType
