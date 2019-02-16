@@ -35,12 +35,15 @@ public class GameManager : MonoBehaviour {
         twoPlayerButton.onClick.AddListener(() => { SetGame(GameType.TwoPlayer); });
         resetButton.onClick.AddListener(()=> { ResetGame(); });
         exitButton.onClick.AddListener(()=> { ExitGame(); });
+        resetButton.gameObject.SetActive(false);
      
     }
 
     public void SetGame(GameType gameType)
     {
-        Debug.Log("Setting Game"+gameType);
+        onePlayerButton.gameObject.SetActive(false);
+        twoPlayerButton.gameObject.SetActive(false);
+        resetButton.gameObject.SetActive(true) ;
 
         CreatePlayer(gameType);
     }

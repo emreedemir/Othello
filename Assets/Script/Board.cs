@@ -47,10 +47,7 @@ public class Board : MonoBehaviour {
 
     public void SetToBoard(Piece piece, Position position)
     {
-        Debug.Log("CAlisiyorr");
         piece.transform.position = cellDictionary[position].transform.position;
-
+        piece.transform.position += new Vector3(0,0.01f,0);
     }
-
-
 }

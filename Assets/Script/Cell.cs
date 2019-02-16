@@ -38,7 +38,7 @@ public class Cell : MonoBehaviour {
         y_index = position.Y;
 
         renderer = GetComponent<Renderer>();
-        cellPosition =bias*( new Vector3(x_index,0,y_index));
+        cellPosition =bias*( new Vector3(x_index,1,y_index));
         transform.position = cellPosition;
         transform.localScale = scaleCell;
 
