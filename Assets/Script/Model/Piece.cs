@@ -12,4 +12,10 @@ public class Piece
         this.PieceType = pieceType;
         this.PiecePosition = piecePosition;
     }
+    public void SetPosition(Position position)
+    {
+        this.PiecePosition = position;
+    }
+
+
 }

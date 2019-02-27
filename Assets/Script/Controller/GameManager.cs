@@ -5,10 +5,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     BoardController boardController;
+
     Board board;
+
+    PiecePool piecePool;
 
     void Awake()
     {
+        piecePool = FindObjectOfType<PiecePool>();
         board = new Board();
         boardController = FindObjectOfType<BoardController>();
     }

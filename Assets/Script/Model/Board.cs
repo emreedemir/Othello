@@ -6,6 +6,7 @@ public class Board
 {
     public static int BOARD_WIDTH = 8;
     public static int BOARD_HEIGHT = 8;
+
     public Cell[,] Cells { get; set; }
 
     public void InitBoard()
