@@ -8,11 +8,10 @@ public class GameManager : MonoBehaviour
 
     Board board;
 
-    PiecePool piecePool;
+    
 
     void Awake()
     {
-        piecePool = FindObjectOfType<PiecePool>();
         board = new Board();
         boardController = FindObjectOfType<BoardController>();
     }
@@ -25,4 +24,5 @@ public class GameManager : MonoBehaviour
         board.InitBoard();
         boardController.ViewBoard(board);
     }
+ 
 }

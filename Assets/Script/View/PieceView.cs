@@ -16,6 +16,7 @@ public class PieceView : MonoBehaviour
     public void SetPieceView(Piece piece)
     {
         transform.position = new Vector3(piece.PiecePosition.X,piece.PiecePosition.Y);
+        this.transform.gameObject.name =""+piece.PieceType;
 
         if (piece.PieceType == PieceType.BlackPiece)
             renderer.material.color = colorBlack;

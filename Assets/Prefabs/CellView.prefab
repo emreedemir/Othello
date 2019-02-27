@@ -9,55 +9,55 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1150215126553696}
+  m_RootGameObject: {fileID: 1477247444467656}
   m_IsPrefabAsset: 1
---- !u!1 &1150215126553696
+--- !u!1 &1477247444467656
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4908016513851722}
-  - component: {fileID: 114127666696082848}
-  - component: {fileID: 212614748410817444}
+  - component: {fileID: 4488410504432776}
+  - component: {fileID: 114079928271808896}
+  - component: {fileID: 212786872042710086}
   m_Layer: 0
-  m_Name: PieceView
+  m_Name: CellView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4908016513851722
+--- !u!4 &4488410504432776
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1150215126553696}
+  m_GameObject: {fileID: 1477247444467656}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114127666696082848
+--- !u!114 &114079928271808896
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1150215126553696}
+  m_GameObject: {fileID: 1477247444467656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97f6643483222e64a8659757342573c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 0608a83d54a7c2c448f361459d7fea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &212614748410817444
+--- !u!212 &212786872042710086
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1150215126553696}
+  m_GameObject: {fileID: 1477247444467656}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0

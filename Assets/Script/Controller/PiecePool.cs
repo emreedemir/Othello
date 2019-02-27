@@ -7,6 +7,9 @@ public class PiecePool : MonoBehaviour
     List<Piece> piecesBlack;
     List<Piece> piecesWhite;
     Position poolPosition = new Position(100, 100);
+
+    public PieceView pieceView;
+
     public static int Piece_Count = 64;
     public void Awake()
     {
@@ -16,10 +19,8 @@ public class PiecePool : MonoBehaviour
 
     public void Start()
     {
-
         SetPool(PieceType.BlackPiece);
         SetPool(PieceType.WhitePiece);
-
     }
     public void SetPool(PieceType pieceType)
     {
@@ -28,9 +29,20 @@ public class PiecePool : MonoBehaviour
             for (int j = 0; j < Board.BOARD_HEIGHT; j++)
             {
                 if (pieceType == PieceType.BlackPiece)
-                    piecesBlack.Add(new Piece(pieceType, poolPosition));
+                {
+                    Piece piece = new Piece(pieceType, poolPosition);
+                    piecesBlack.Add(piece);
+                    PieceView pv = Instantiate(pieceView);
+                    pv.SetPieceView(piece);
+                }
                 else
-                    piecesWhite.Add(new Piece(pieceType, poolPosition));
+                {
+                    Piece piece = new Piece(pieceType, poolPosition);
+                    piecesWhite.Add(piece);
+                    PieceView pv = Instantiate(pieceView);
+                    pv.SetPieceView(piece);
+
+                }
             }
         }
     }
