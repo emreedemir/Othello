@@ -2,15 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PieceView : MonoBehaviour {
+public class PieceView : MonoBehaviour
+{
+    Color colorBlack = Color.black;
+    Color colorWhite = Color.white;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    Renderer renderer;
+
+    public void Awake()
+    {
+        renderer = GetComponent<Renderer>();
+    }
+    public void SetPieceView(Piece piece)
+    {
+        transform.position = new Vector3(piece.PiecePosition.X,piece.PiecePosition.Y);
+
+        if (piece.PieceType == PieceType.BlackPiece)
+            renderer.material.color = colorBlack;
+        else
+            renderer.material.color = colorWhite;
+    }
+    public void SetPosition(Position position)
+    {
+        transform.position = new Vector3(position.X, 0,position.Y);
+    }
 }
