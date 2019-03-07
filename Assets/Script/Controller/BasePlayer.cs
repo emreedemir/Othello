@@ -6,7 +6,7 @@ public  class BasePlayer : MonoBehaviour
 {
     public PlayerType PlayerType { get; set; }
 
-    IDictionary<Piece, Position> pieces;
+    public IDictionary<Piece, Position> pieces;
 
     protected virtual void Start()
     {
@@ -15,5 +15,9 @@ public  class BasePlayer : MonoBehaviour
     public virtual void SetPlayer(PlayerType playerType)
     {
         this.PlayerType = playerType;
+    }
+    public virtual void SetInitPieces()
+    {
+
     }
 }

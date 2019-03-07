@@ -11,6 +11,7 @@ public class PiecePool : MonoBehaviour
     public PieceView pieceView;
 
     public static int Piece_Count = 64;
+
     public void Awake()
     {
         piecesBlack = new List<Piece>(Piece_Count);

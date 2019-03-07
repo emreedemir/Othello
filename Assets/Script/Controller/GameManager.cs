@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour
 
     Board board;
 
-    
+    public Player player;
+    public AIPlayer aiPlayer;
+
 
     void Awake()
     {
@@ -18,11 +20,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetBoard();
+        if (player != null && aiPlayer != null)
+            SetPlayers(player, aiPlayer);
     }
     public void SetBoard()
     {
         board.InitBoard();
         boardController.ViewBoard(board);
+
     }
- 
+    public void SetPlayers(BasePlayer player1, BasePlayer player2)
+    {
+        board.InitFirstState(player1, player2);
+    }
 }

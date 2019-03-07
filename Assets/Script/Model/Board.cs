@@ -7,6 +7,14 @@ public class Board
     public static int BOARD_WIDTH = 8;
     public static int BOARD_HEIGHT = 8;
 
+    #region Init Position of Pieces
+    Position firstWhite = new Position { X = 3, Y = 3 };
+    Position secondWhite = new Position { X = 4, Y = 4 };
+
+    Position firstBlack = new Position { X = 4, Y = 3 };
+    Position secondBlack = new Position { X = 3, Y = 4 };
+    #endregion
+
     public Cell[,] Cells { get; set; }
 
     public void InitBoard()
@@ -23,7 +31,12 @@ public class Board
             {
                 Position position = new Position(i, j);
                 Cells[i, j] = new Cell(position);
+                Cells[i, j].CellState = State.Null;
             }
         }
+    }
+    public void InitFirstState(BasePlayer player1, BasePlayer player2)
+    {
+
     }
 }

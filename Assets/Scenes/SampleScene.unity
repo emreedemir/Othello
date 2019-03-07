@@ -248,6 +248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12955dca6b4ed084cb3487c0c6a5115a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 114915711770228872, guid: 15d35ec54789c5e4db78483ff9e02728, type: 2}
+  aiPlayer: {fileID: 114879605264066642, guid: a84b11a1890b9a24c890fb08db196da4, type: 2}
 --- !u!4 &434189135
 Transform:
   m_ObjectHideFlags: 0
