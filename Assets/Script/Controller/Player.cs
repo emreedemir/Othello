@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : BasePlayer
 {
 
+    public PlayerType PlayerType = PlayerType.Human;
     protected override void Start()
     {
         base.Start();

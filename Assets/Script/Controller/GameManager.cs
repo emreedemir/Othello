@@ -8,8 +8,8 @@ public class GameManager : MonoBehaviour
 
     Board board;
 
-    public Player player;
-    public AIPlayer aiPlayer;
+    public Player playerPrefab;
+    public AIPlayer aiPlayerPrefab;
 
 
     void Awake()
@@ -19,18 +19,19 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        Player player = Instantiate(playerPrefab);
+        AIPlayer aiPlayer = Instantiate(aiPlayerPrefab);
         SetBoard();
         if (player != null && aiPlayer != null)
-            SetPlayers(player, aiPlayer);
+        {
+            boardController.SetPlayers(player, aiPlayer, PieceType.BlackPiece, PieceType.WhitePiece);
+        }
+
     }
     public void SetBoard()
     {
         board.InitBoard();
         boardController.ViewBoard(board);
 
-    }
-    public void SetPlayers(BasePlayer player1, BasePlayer player2)
-    {
-        board.InitFirstState(player1, player2);
     }
 }

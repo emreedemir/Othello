@@ -48,9 +48,9 @@ public class PiecePool : MonoBehaviour
         }
     }
 
-    Piece TakePiece(PlayerType playerType)
+    public Piece TakePiece(PieceType pieceType)
     {
-        if (playerType == PlayerType.Computer)
+        if (pieceType == PieceType.BlackPiece)
         {
             Piece piece = piecesBlack[0];
             piecesBlack.RemoveAt(0);

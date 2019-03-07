@@ -8,11 +8,11 @@ public class Board
     public static int BOARD_HEIGHT = 8;
 
     #region Init Position of Pieces
-    Position firstWhite = new Position { X = 3, Y = 3 };
-    Position secondWhite = new Position { X = 4, Y = 4 };
+    public static Position firstWhite = new Position { X = 3, Y = 3 };
+    public static Position secondWhite = new Position { X = 4, Y = 4 };
 
-    Position firstBlack = new Position { X = 4, Y = 3 };
-    Position secondBlack = new Position { X = 3, Y = 4 };
+    public static Position firstBlack = new Position { X = 4, Y = 3 };
+    public static Position secondBlack = new Position { X = 3, Y = 4 };
     #endregion
 
     public Cell[,] Cells { get; set; }
@@ -35,8 +35,5 @@ public class Board
             }
         }
     }
-    public void InitFirstState(BasePlayer player1, BasePlayer player2)
-    {
 
-    }
 }

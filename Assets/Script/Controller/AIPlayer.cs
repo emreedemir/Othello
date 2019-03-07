@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AIPlayer : BasePlayer
 {
+    public PlayerType PlayerType = PlayerType.Computer;
     protected override void Start()
     {
         base.Start();

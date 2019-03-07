@@ -4,20 +4,16 @@ using UnityEngine;
 
 public  class BasePlayer : MonoBehaviour
 {
-    public PlayerType PlayerType { get; set; }
-
+    
+    public PieceType PieceType { get; set; }
     public IDictionary<Piece, Position> pieces;
 
     protected virtual void Start()
     {
         pieces = new Dictionary<Piece, Position>(64);
     }
-    public virtual void SetPlayer(PlayerType playerType)
+    public virtual void SetPlayer(PieceType pieceType)
     {
-        this.PlayerType = playerType;
-    }
-    public virtual void SetInitPieces()
-    {
-
+        this.PieceType = pieceType;
     }
 }
