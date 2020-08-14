@@ -4,95 +4,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+namespace Othello
 {
-    public static GameController Instance = new GameController();
-
-    public enum PieceType
+    public class GameController : MonoBehaviour
     {
-        None,
-        White,
-        Black
-    }
+        public Human human;
 
-    public Button newGameButton;
-    public Button exitGameButton;
+        public Robot robot;
 
-    public Human Human { get; set; }
-    public Robot Robot { get; set; }
+        public PiecePoll piecePool;
 
-    private void Awake()
-    {
-        if (Instance == null)
+        public Board board;
+
+        
+
+
+        private void Start()
         {
-            Instance = this;
+            piecePool = new PiecePoll();
+
+            piecePool.CreatePoll();
+
+            board = new Board();
+
+            board.CreateBoard();
+
+            board.SetUnitNeigbours(board.allUnitOfBoard);
+
+            board.SetUnitPressEvents(board.allUnitOfBoard);
+
+            human = new Human();
+
+            human.pieceType = PieceType.Black;
+
+            robot = new Robot();
+
+            robot.pieceType = PieceType.White;
+
         }
-    }
 
-    private void Start()
-    {
-        Board.Instance.CreateBoard();
-        RenderButtons();
-        Human = FindObjectOfType<Human>();
-        Robot = FindObjectOfType<Robot>();
-
-    }
-
-    public void RenderButtons()
-    {
-        newGameButton.onClick.AddListener(() => SetGame());
-        exitGameButton.onClick.AddListener(Application.Quit);
-    }
-
-    void SetGame()
-    {
-        Human.InitiliazePlayer(PieceType.Black);
-        Robot.InitiliazePlayer(PieceType.White);
-        Board.Instance.Initialize(Human, Robot);
-        State.Instance.SetState(State.GameState.AtHuman);
-    }
-
-    public void EvaluateMove(Unit unit)
-    {
-        if (State.Instance.Game_State == State.GameState.AtHuman)
+        public void Turn(BasePlayer player)
         {
-            if (Board.Instance.IsPlayable(unit,GameController.Instance.Human.playerPieceType))
-            {
-                Board.Instance.SetPieceToBoard(GameController.Instance.Human.GetPiece(), unit);
-                EvaluateRound(GameController.Instance.Human);
-            }      
+            player.Play(board);
+
+
         }
-        else
-        {
-            Debug.Log("Wait,Robot is playing");
-        }
-    }
-
-    public void EvaluateRound(BasePlayer player)
-    {
-        if (player is Human)
-        {
-            Board.Instance.SearchPieces();
-            /*
-            if (!IsGameOver())
-            {
-                State.Instance.SetState(State.GameState.AtRobot);
-            }
-            */
-        }
-        else if (player is Robot)
-        {
-            Board.Instance.SearchPieces();
-
-            if (!IsGameOver())
-            {
-                State.Instance.SetState(State.GameState.AtHuman);
-            }
-        }           
-    }
-
-    bool IsGameOver()
-    {
-        return false;
     }
 }

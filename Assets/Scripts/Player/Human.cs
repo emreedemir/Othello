@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Human : BasePlayer
+namespace Othello
 {
-    
+    public class Human : BasePlayer
+    {
+
+        public override void Play(Board board)
+        {
+            board.IsBoardPiecesTouchable = true;
+        }
+    }
 }

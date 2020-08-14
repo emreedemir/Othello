@@ -1,31 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Piece : MonoBehaviour
+namespace Othello
 {
-    public Position PiecePosition { get; set; }
-
-
-    public GameController.PieceType Type;
-
-    public void SetPiece(GameController.PieceType pieceType)
+    public class Piece : MonoBehaviour
     {
-        Type = pieceType;
+        public PieceType pieceType;
 
-        if (Type == GameController.PieceType.Black)
+        public void SetPiecePositionAsVisual(Vector3 position)
         {
-            GetComponent<SpriteRenderer>().color = Color.black;
+            this.transform.position = position;
         }
-        else if(Type ==GameController.PieceType.White)
-        {
-            GetComponent<SpriteRenderer>().color = Color.white;
-        }
-    }
 
-    public void SetPiecePosition(Position position)
-    {
-        PiecePosition = position;
-        transform.position = new Vector3(position.X,position.Y,-1);
+        public void SetPieceType(PieceType pieceType)
+        {
+            this.pieceType = pieceType;
+        }
     }
 }

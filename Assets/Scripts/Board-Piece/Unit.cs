@@ -2,34 +2,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public class Unit : MonoBehaviour
+
+namespace Othello
 {
-    public Position UnitPosition { get; set; }
-    public Action<Unit> OnClicked;
-    public Piece CurrentPiece;
-
-    List<Unit> neighbours = new List<Unit>();
-
-
-    public void SetPosition(Position position)
+    public class Unit : MonoBehaviour
     {
-        UnitPosition = position;
-        transform.position = new Vector2(UnitPosition.X,UnitPosition.Y);
-        transform.localScale *= 0.95f;
-        neighbours = Board.Instance.GetNeighbors(this);
-    }
 
-    public void SetPieceToUnit(Piece piece)
-    {
-        CurrentPiece = piece;
-        CurrentPiece.SetPiecePosition(UnitPosition);
-    }
+        /// <summary>
+        /// Logical Position of Unit
+        /// </summary>
+        public Position unitBoardPosition;
 
-    private void OnMouseDown()
-    {
-        if (OnClicked != null)
+        public Action<Unit> OnUnitPressed;
+
+        public Piece currentPiece = null;
+
+        public List<Unit> unitNeigbours;
+
+        /// <summary>
+        /// Set Unit position as logical and visual
+        /// </summary>
+        /// <param name="unitBoardPosition"></param>
+        public void SetUnitPosition(Position unitBoardPosition)
         {
-            OnClicked.Invoke(this);
+            this.unitBoardPosition = unitBoardPosition;
+
+            transform.position = (Vector2)unitBoardPosition;
         }
+
+        /// <summary>
+        /// Set currentUnitPiece inside Unit
+        /// </summary>
+        /// <param name="piece"></param>
+        public void SetUnitPiece(Piece piece)
+        {
+            this.currentPiece = piece;
+        }
+
+
+        /// <summary>
+        /// Make currentPiece ==null inside Unit
+        /// </summary>
+        public void SetUnitFree()
+        {
+            currentPiece = null;
+        }
+
+        private void OnMouseDown()
+        {
+            OnUnitPressed?.Invoke(this);
+        }
+
+
     }
 }
