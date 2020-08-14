@@ -11,7 +11,7 @@ namespace Othello
 
         public void SetPiecePositionAsVisual(Vector3 position)
         {
-            this.transform.position = position;
+            this.transform.position = position + new Vector3(0, 0, -1);
         }
 
         public void SetPieceType(PieceType pieceType)

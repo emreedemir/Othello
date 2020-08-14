@@ -19,11 +19,11 @@ namespace Othello
 
         public int Minimax(List<Unit> currentBoard, PieceType currentPlayerPieceType, PieceType oppositePlayerPieceType, int currentDepth, int maximumDepth, bool isMax)
         {
-            int score = EvaluateBoard(currentBoard, currentPlayerPieceType, oppositePlayerPieceType);
+            int gameFinishedScore = EvaluateBoard(currentBoard, currentPlayerPieceType, oppositePlayerPieceType);
 
-            if (score == 10 || score == -10)
+            if (gameFinishedScore == 10 || gameFinishedScore == -10)
             {
-                return score;
+                return gameFinishedScore;
             }
 
             if (!IsEmptyUnit(currentBoard))
@@ -37,25 +37,45 @@ namespace Othello
 
                 for (int i = 0; i < currentBoard.Count; i++)
                 {
-                    //currentBoard[i].CurrentPiece == Set as currentPlayerPieceType;
+                    currentBoard[i].SetUnitPiece(PiecePoll.GetPiece(currentPlayerPieceType));
 
                     int bestValue = Minimax(currentBoard, currentPlayerPieceType, oppositePlayerPieceType, currentDepth, maximumDepth, !isMax);
 
-                    //currentBoard[i].CurrentPiece == Set as Empty
+                    Piece piece = currentBoard[i].currentPiece;
+
+                    PiecePoll.AddToPoll(piece);
+
+                    currentBoard[i].SetUnitFree();
 
                     if (bestValue > best)
                     {
                         best = bestValue;
                     }
-
                 }
-
 
                 return best;
             }
             else
             {
                 int best = 1000;
+
+                for (int j = 0; j < currentBoard.Count; j++)
+                {
+                    currentBoard[j].SetUnitPiece(PiecePoll.GetPiece(oppositePlayerPieceType));
+
+                    int bestValue = Minimax(currentBoard,currentPlayerPieceType,oppositePlayerPieceType,currentDepth,maximumDepth,!isMax);
+
+                    Piece piece = currentBoard[j].currentPiece;
+
+                    PiecePoll.AddToPoll(piece);
+
+                    currentBoard[j].SetUnitFree();
+
+                    if (bestValue > best)
+                    {
+                        best = bestValue;
+                    }
+                }
 
                 return best;
             }
@@ -69,9 +89,9 @@ namespace Othello
 
             int bestScore = -1000;
 
-            List<Unit> playablePieces = GetPlayeblaPieces(boardPieces);
+            List<Unit> playablePieces = Board.GetPlayableUnits(currentPlayerPieceType, oppositePlayerPieceType, boardPieces);
 
-            for (int j = 0; j < boardPieces.Count; j++)
+            for (int j = 0; j < playablePieces.Count; j++)
             {
                 int currentDepth = 0;
 
@@ -89,11 +109,6 @@ namespace Othello
             }
 
             return bestUnit;
-        }
-
-        public static List<Unit> GetPlayeblaPieces(List<Unit> boardPieces)
-        {
-            return null;
         }
     }
 }

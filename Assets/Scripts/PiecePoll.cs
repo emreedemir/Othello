@@ -8,9 +8,9 @@ namespace Othello
     {
         public Piece piecePrefab;
 
-        public Queue<Piece> whitePieces;
+        public static Queue<Piece> whitePieces;
 
-        public Queue<Piece> blackPieces;
+        public static Queue<Piece> blackPieces;
 
         public const int POLL_SIZE = 64;
 
@@ -32,6 +32,7 @@ namespace Othello
             {
                 Piece newWhitePiece = MonoBehaviour.Instantiate(piecePrefab);
 
+                newWhitePiece.GetComponent<SpriteRenderer>().color = Color.white;
                 newWhitePiece.SetPieceType(PieceType.White);
 
                 newWhitePiece.transform.SetParent(piecesParent);
@@ -42,13 +43,15 @@ namespace Othello
 
                 newBlackPiece.SetPieceType(PieceType.Black);
 
+                newBlackPiece.GetComponent<SpriteRenderer>().color = Color.black;
+
                 newBlackPiece.transform.SetParent(piecesParent);
 
                 AddToPoll(newBlackPiece);
             }
         }
 
-        public Piece GetPiece(PieceType pieceType)
+        public static Piece GetPiece(PieceType pieceType)
         {
             if (pieceType == PieceType.Black)
             {
@@ -68,7 +71,7 @@ namespace Othello
             return null;
         }
 
-        public void AddToPoll(Piece piece)
+        public static void AddToPoll(Piece piece)
         {
             piece.gameObject.SetActive(false);
 

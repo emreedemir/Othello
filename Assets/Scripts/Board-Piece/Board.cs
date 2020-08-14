@@ -32,7 +32,7 @@ namespace Othello
 
         public Action<Board> EvaluateBoard;
 
-        public readonly Position[] allDirections =
+        public static Position[] allDirections =
         {
             new Position(1,0),
             new Position(-1,0),
@@ -42,6 +42,19 @@ namespace Othello
             new Position(-1,1),
             new Position(-1,-1),
             new Position(1,-1)
+        };
+
+        public readonly Position[] initialWhitePiecesPositions =
+        {
+            new Position(4,3),
+            new Position(3,4)
+        };
+
+        public readonly Position[] initialBlackPiecesPositions =
+        {
+            new Position(3,3),
+            new Position(4,4)
+
         };
 
         /// <summary>
@@ -91,29 +104,18 @@ namespace Othello
         public List<Unit> FindUnitNeigbours(Unit unit, List<Unit> allBoardUnits)
         {
             return allUnitOfBoard.FindAll(x =>
-            x.unitBoardPosition == allDirections.ToList().
-            Find(s => s.X + unit.unitBoardPosition.X == x.unitBoardPosition.X && s.Y + unit.unitBoardPosition.Y == x.unitBoardPosition.Y));
+            x.unitBoardPosition == (unit.unitBoardPosition + allDirections.ToList().
+            Find(s => s + unit.unitBoardPosition == x.unitBoardPosition)) && x.unitBoardPosition != unit.unitBoardPosition);
         }
 
-        /// <summary>
-        /// Use for 4 İnitial pieces position
-        /// </summary>
-        /// <param name="initialPieces"></param>
-        public void SpawnInitialPiecesToBoard(Dictionary<Piece, Position> initialPieces)
-        {
-            foreach (KeyValuePair<Piece, Position> pair in initialPieces)
-            {
-                Unit unit = allUnitOfBoard.Find(x => x.unitBoardPosition == pair.Value);
-
-                SpawnPieceToBoard(unit, pair.Key);
-            }
-        }
 
         public void SpawnPieceToBoard(Unit spawnUnit, Piece spawnedPiece)
         {
             spawnUnit.SetUnitPiece(spawnedPiece);
 
             spawnedPiece.SetPiecePositionAsVisual(spawnUnit.transform.position);
+
+            spawnedPiece.gameObject.SetActive(true);
 
         }
 
@@ -123,6 +125,77 @@ namespace Othello
             {
                 Debug.Log("Unit touched");
             }
+            else
+            {
+                Debug.Log("Units Non Touchable");
+            }
+        }
+
+        public static List<Unit> GetPlayableUnits(PieceType currentPlayerPieceType, PieceType oppositePlayerPieceType, List<Unit> boardUnits)
+        {
+            List<Unit> playableUnits = new List<Unit>();
+
+            ///Found every Empty units
+
+            ////WARNING
+            ///
+            /* Increased performance by selecting units with at least one full neighbor instead of searching for each empty unit to improve performance*/
+
+            List<Unit> emptyUnits = boardUnits.FindAll(x => x.currentPiece == null);
+
+            emptyUnits = emptyUnits.FindAll(x => x.unitNeigbours.Find(a => a.currentPiece != null));
+
+            emptyUnits.ForEach(x => x.GetComponent<SpriteRenderer>().color = Color.blue);
+
+            for (int i = 0; i < emptyUnits.Count; i++)
+            {
+                for (int j = 0; j < allDirections.Length; j++)
+                {
+                    bool playable = IsPlayable(emptyUnits[i], boardUnits, allDirections[j], currentPlayerPieceType, oppositePlayerPieceType, 0);
+
+                    if (playable == true)
+                    {
+                        playableUnits.Add(emptyUnits[i]);
+                    }
+                }
+            }
+
+            return playableUnits;
+        }
+
+        private static bool IsPlayable(Unit currentUnit, List<Unit> allUnits, Position directionVector, PieceType currentPlayerPieceType, PieceType oppositePlayerPieceType, int depth)
+        {
+            Unit nextUnit = allUnits.Find(x => x.unitBoardPosition == currentUnit.unitBoardPosition + directionVector);
+
+
+            if (nextUnit == null)
+            {
+                return false;
+            }
+
+            if (nextUnit.currentPiece == null)
+            {
+                return false;
+            }
+
+            if (nextUnit.currentPiece.pieceType == oppositePlayerPieceType)
+            {
+                return IsPlayable(nextUnit, allUnits, directionVector, currentPlayerPieceType, oppositePlayerPieceType, depth + 1);
+            }
+
+            if (nextUnit.currentPiece.pieceType == currentPlayerPieceType)
+            {
+                if (depth == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
     public enum PieceType
@@ -131,4 +204,5 @@ namespace Othello
         Black,
         White
     }
+
 }
