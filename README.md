@@ -1,2 +1,2 @@
 # Othello
-!(https://github.com/[emreedemir]/[Othello]/OthelloScreenShot.jpeg?raw=true)
+!(https://github.com/[emreedemir]/[Othello]/[blob]/OthelloScreenShot.jpeg?raw=true)
