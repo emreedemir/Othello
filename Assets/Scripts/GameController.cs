@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace Othello
 {
@@ -15,6 +16,12 @@ namespace Othello
         public PiecePoll piecePool;
 
         public Board board;
+
+        MinimaxAlgoritm minimaxAlgoritm;
+
+        public Text humanScore;
+
+        public Text robotScore;
 
         private void Start()
         {
@@ -38,24 +45,108 @@ namespace Othello
 
             robot.pieceType = PieceType.White;
 
+            minimaxAlgoritm = new MinimaxAlgoritm();
+
             SpawnInitialPiecesAtBoard(human, robot, board);
 
+            //This is a test
             List<Unit> playableUnitsForHuman = Board.GetPlayableUnits(human.pieceType, robot.pieceType, board.allUnitOfBoard);
 
-            if (playableUnitsForHuman.Count > 0)
-            {
+            board.EvaluateUserPress += HandleUserTouchUnit;
 
-                for (int i = 0; i < playableUnitsForHuman.Count; i++)
-                {
-                    playableUnitsForHuman[i].GetComponent<SpriteRenderer>().color = Color.red;
-                }
-            }
+            Turn(human);
 
         }
 
-        public void Turn(BasePlayer player)
+        public void HandleUserTouchUnit(Unit unit)
         {
-            player.Play(board);
+            List<Unit> playableUnits = Board.GetPlayableUnits(human.pieceType, robot.pieceType, board.allUnitOfBoard);
+
+            if (playableUnits.Find(x => x == unit))
+            {
+
+                Piece playerPiece = PiecePoll.GetPiece(human.pieceType);
+
+                board.SpawnPieceToBoard(unit, playerPiece);
+
+                TurnPiecesAfterPlayerPlayTurn(unit, human, robot);
+
+                humanScore.text = "HUMAN SCORE : " + board.allUnitOfBoard.FindAll(x => x.currentPiece != null).FindAll(a => a.currentPiece.pieceType == human.pieceType).Count();
+
+                robotScore.text = "ROBOT SCORE : " + board.allUnitOfBoard.FindAll(x => x.currentPiece != null).FindAll(a => a.currentPiece.pieceType == robot.pieceType).Count();
+
+                Turn(robot);
+            }
+        }
+
+        public void Turn(BasePlayer currentPlayer)
+        {
+            if (currentPlayer is Human)
+            {
+
+                board.IsBoardPiecesTouchable = true;
+            }
+            else if (currentPlayer is Robot)
+            {
+                board.IsBoardPiecesTouchable = false;
+
+
+                Unit bestUnit = minimaxAlgoritm.GetBestPiece(board.allUnitOfBoard, currentPlayer.pieceType, human.pieceType, 2);
+
+                Piece piece = PiecePoll.GetPiece(currentPlayer.pieceType);
+
+                if (piece == null)
+                {
+                    FinishGame();
+
+                    return;
+                }
+
+
+                board.SpawnPieceToBoard(bestUnit, piece);
+
+                TurnPiecesAfterPlayerPlayTurn(bestUnit, currentPlayer, human);
+
+                robotScore.text = "ROBOT SCORE : " + board.allUnitOfBoard.FindAll(x => x.currentPiece != null).FindAll(a => a.currentPiece.pieceType == robot.pieceType).Count();
+
+                humanScore.text = "HUMAN SCORE : " + board.allUnitOfBoard.FindAll(x => x.currentPiece != null).FindAll(a => a.currentPiece.pieceType == human.pieceType).Count();
+
+                if (IsGameOver(board.allUnitOfBoard))
+                {
+                    FinishGame();
+                }
+                else
+                {
+                    Turn(human);
+                }
+            }
+        }
+
+        public void TurnPiecesAfterPlayerPlayTurn(Unit playedUnit, BasePlayer currentPlayer, BasePlayer oppositePlayer)
+        {
+
+            List<Unit> allTurnaleUnitPieces = board.GetAllTurnableUnitPieces(playedUnit, board.allUnitOfBoard, currentPlayer.pieceType, oppositePlayer.pieceType);
+
+            List<Piece> allOppositePieces = allTurnaleUnitPieces.Select(x => x.currentPiece).ToList();
+
+            for (int i = 0; i < allOppositePieces.Count; i++)
+            {
+                PiecePoll.AddToPoll(allOppositePieces[i]);
+            }
+
+            allTurnaleUnitPieces.ForEach(x => x.SetUnitFree());
+
+            allTurnaleUnitPieces.ForEach(x => board.SpawnPieceToBoard(x, PiecePoll.GetPiece(currentPlayer.pieceType)));
+        }
+
+        public bool IsGameOver(List<Unit> units)
+        {
+            return !units.Find(x => x.currentPiece == null);
+        }
+
+        public void FinishGame()
+        {
+            Debug.Log("GAME FINISHED");
         }
 
         public void SpawnInitialPiecesAtBoard(BasePlayer humanPlayer, BasePlayer robotPlayer, Board board)

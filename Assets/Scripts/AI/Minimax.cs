@@ -2,54 +2,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Othello
 {
     public class MinimaxAlgoritm
     {
-        private int EvaluateBoard(List<Unit> currentBoard, PieceType currentPlayerPieceType, PieceType oppositePlayerPieceType)
-        {
-            return 1;
-        }
+        public const int MAX = 1000;
+
+        public const int MIN = -1000;
 
         private bool IsEmptyUnit(List<Unit> currentBoard)
         {
-            return false;
+            return currentBoard.Find(x => x.currentPiece == null);
         }
 
-        public int Minimax(List<Unit> currentBoard, PieceType currentPlayerPieceType, PieceType oppositePlayerPieceType, int currentDepth, int maximumDepth, bool isMax)
+        private int Minimax(List<Unit> currentBoard, PieceType currentPlayerPieceType, PieceType oppositePlayerPieceType, int alpha, int beta, int currentDepth, bool isMax)
         {
-            int gameFinishedScore = EvaluateBoard(currentBoard, currentPlayerPieceType, oppositePlayerPieceType);
-
-            if (gameFinishedScore == 10 || gameFinishedScore == -10)
+            if (currentDepth == 0 || !IsEmptyUnit(currentBoard))
             {
-                return gameFinishedScore;
-            }
-
-            if (!IsEmptyUnit(currentBoard))
-            {
-                return 0;
+                return currentBoard.FindAll(x => x.currentPiece != null).FindAll(x => x.currentPiece.pieceType == currentPlayerPieceType).Count();
             }
 
             if (isMax)
             {
-                int best = -1000;
+                int best = MIN;
 
-                for (int i = 0; i < currentBoard.Count; i++)
+                //WARNING
+                List<Unit> playableUnitForCurrentPlayer = Board.GetPlayableUnits(currentPlayerPieceType, oppositePlayerPieceType, currentBoard);
+
+                for (int i = 0; i < playableUnitForCurrentPlayer.Count; i++)
                 {
-                    currentBoard[i].SetUnitPiece(PiecePoll.GetPiece(currentPlayerPieceType));
+                    playableUnitForCurrentPlayer[i].SetUnitPiece(PiecePoll.GetPiece(currentPlayerPieceType));
 
-                    int bestValue = Minimax(currentBoard, currentPlayerPieceType, oppositePlayerPieceType, currentDepth, maximumDepth, !isMax);
+                    int bestValue = Minimax(currentBoard, currentPlayerPieceType, oppositePlayerPieceType, alpha, beta, currentDepth - 1, !isMax);
 
-                    Piece piece = currentBoard[i].currentPiece;
+                    Piece piece = playableUnitForCurrentPlayer[i].currentPiece;
 
                     PiecePoll.AddToPoll(piece);
 
-                    currentBoard[i].SetUnitFree();
+                    playableUnitForCurrentPlayer[i].SetUnitFree();
 
-                    if (bestValue > best)
+                    best = Math.Max(best, bestValue);
+
+                    alpha = Math.Max(alpha, best);
+
+                    if (beta <= alpha)
                     {
-                        best = bestValue;
+                        break;
                     }
                 }
 
@@ -57,55 +57,64 @@ namespace Othello
             }
             else
             {
-                int best = 1000;
+                int best = MAX;
 
-                for (int j = 0; j < currentBoard.Count; j++)
+                //WARNING
+                List<Unit> playableUnitForOppositePlayer = Board.GetPlayableUnits(oppositePlayerPieceType, currentPlayerPieceType, currentBoard);
+
+                for (int j = 0; j < playableUnitForOppositePlayer.Count; j++)
                 {
-                    currentBoard[j].SetUnitPiece(PiecePoll.GetPiece(oppositePlayerPieceType));
+                    playableUnitForOppositePlayer[j].SetUnitPiece(PiecePoll.GetPiece(oppositePlayerPieceType));
 
-                    int bestValue = Minimax(currentBoard,currentPlayerPieceType,oppositePlayerPieceType,currentDepth,maximumDepth,!isMax);
+                    int bestValue = Minimax(currentBoard, currentPlayerPieceType, oppositePlayerPieceType, alpha, beta, currentDepth - 1, !isMax);
 
-                    Piece piece = currentBoard[j].currentPiece;
+                    Piece piece = playableUnitForOppositePlayer[j].currentPiece;
 
                     PiecePoll.AddToPoll(piece);
 
-                    currentBoard[j].SetUnitFree();
+                    playableUnitForOppositePlayer[j].SetUnitFree();
 
-                    if (bestValue > best)
+                    best = Math.Min(best, bestValue);
+
+                    beta = Math.Min(beta, best);
+
+                    if (beta <= alpha)
                     {
-                        best = bestValue;
+                        break;
                     }
                 }
 
                 return best;
             }
-
         }
-
 
         public Unit GetBestPiece(List<Unit> boardPieces, PieceType currentPlayerPieceType, PieceType oppositePlayerPieceType, int maximumDepth)
         {
             Unit bestUnit = null;
 
-            int bestScore = -1000;
+            int bestScore = MIN;
 
             List<Unit> playablePieces = Board.GetPlayableUnits(currentPlayerPieceType, oppositePlayerPieceType, boardPieces);
 
             for (int j = 0; j < playablePieces.Count; j++)
             {
-                int currentDepth = 0;
 
-                //board[i].CurrentPiece =//Set Piece
+                playablePieces[j].SetUnitPiece(PiecePoll.GetPiece(currentPlayerPieceType));
 
-                int score = Minimax(boardPieces, currentPlayerPieceType, oppositePlayerPieceType, currentDepth, maximumDepth, false);
+                int score = Minimax(boardPieces, currentPlayerPieceType, oppositePlayerPieceType, MIN, MAX, maximumDepth, false);
+
+                Piece piece = playablePieces[j].currentPiece;
+
+                PiecePoll.AddToPoll(piece);
+
+                playablePieces[j].SetUnitFree();
 
                 if (score > bestScore)
                 {
                     bestScore = score;
 
-                    bestUnit = boardPieces[j];
+                    bestUnit = playablePieces[j];
                 }
-
             }
 
             return bestUnit;

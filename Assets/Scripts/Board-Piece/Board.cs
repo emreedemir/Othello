@@ -30,7 +30,8 @@ namespace Othello
 
         public bool IsBoardPiecesTouchable;
 
-        public Action<Board> EvaluateBoard;
+        public Action<Unit> EvaluateUserPress;
+
 
         public static Position[] allDirections =
         {
@@ -123,11 +124,11 @@ namespace Othello
         {
             if (IsBoardPiecesTouchable)
             {
-                Debug.Log("Unit touched");
+                EvaluateUserPress?.Invoke(unit);
             }
             else
             {
-                Debug.Log("Units Non Touchable");
+                Debug.Log("Board is Nontouchable");
             }
         }
 
@@ -144,8 +145,6 @@ namespace Othello
             List<Unit> emptyUnits = boardUnits.FindAll(x => x.currentPiece == null);
 
             emptyUnits = emptyUnits.FindAll(x => x.unitNeigbours.Find(a => a.currentPiece != null));
-
-            emptyUnits.ForEach(x => x.GetComponent<SpriteRenderer>().color = Color.blue);
 
             for (int i = 0; i < emptyUnits.Count; i++)
             {
@@ -196,6 +195,64 @@ namespace Othello
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// After Any player move a piece ,this method look for any turnable pieces and turn oppositePieces
+        /// </summary>
+        /// <param name="playedPiece"></param>
+        public List<Unit> GetAllTurnableUnitPieces(Unit playedUnit, List<Unit> allUnits, PieceType playerPieceType, PieceType oppositePieceType)
+        {
+            List<Unit> allTurnableUnits = new List<Unit>();
+
+            for (int i = 0; i < allDirections.Length; i++)
+            {
+                List<Piece> turnablePieces = new List<Piece>();
+
+                if (IsTurnable(playedUnit, allDirections[i], playerPieceType, oppositePieceType, allUnits, turnablePieces, 0))
+                {
+                    allTurnableUnits.AddRange(allUnits.FindAll(x => turnablePieces.Find(a => a == x.currentPiece) && !turnablePieces.Find(b => b == x)));
+                }
+            }
+
+            return allTurnableUnits;
+        }
+
+        private bool IsTurnable(Unit playedUnit, Position directionVector, PieceType firstPieceType, PieceType oppositePieceType, List<Unit> allUnits, List<Piece> turnablePieces, int currentDepth)
+        {
+            Unit nextUnit = allUnits.Find(x => x.unitBoardPosition == playedUnit.unitBoardPosition + directionVector);
+
+            if (nextUnit != null)
+            {
+                if (nextUnit.currentPiece != null)
+                {
+                    if (nextUnit.currentPiece.pieceType == oppositePieceType)
+                    {
+                        turnablePieces.Add(nextUnit.currentPiece);
+
+                        return IsTurnable(nextUnit, directionVector, firstPieceType, oppositePieceType, allUnits, turnablePieces, currentDepth + 1);
+                    }
+                    else
+                    {
+                        if (currentDepth == 0)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
     }
     public enum PieceType
