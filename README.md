@@ -1,2 +1,2 @@
 # Othello
-![alt text](https://github.com/[emreedemir]/[Othello]//OthelloScrennshot.jpeg?raw=true)
+![alt text](https://github.com/[emreedemir]/[Othello]//OthelloScreenShot.jpeg?raw=true)
