@@ -1,2 +1,2 @@
 # Othello
-![](OthelloScreenShot.jpeg)
+![](OthelloScreenShot.jpg)
